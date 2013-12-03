@@ -22,11 +22,16 @@
   	<link href="./styles/leaflet.css" type="text/css" rel="stylesheet" />
   	<link href="./styles/apisamples.css" type="text/css" rel="stylesheet" />
  
-  	<script src="./scripts/apisamples.js" type="text/javascript"></script>
- 	<script src="./scripts/third_party/jquery.ba-bbq.js" type="text/javascript"></script>
-  	<script src="./scripts/third_party/leaflet.js" type="text/javascript"></script>
-  	<script src="./scripts/third_party/wax.leaf.min.js" type="text/javascript"></script>
+  	<script src="./script/apisamples.js" type="text/javascript"></script>
+ 	<script src="./script/third_party/jquery.ba-bbq.js" type="text/javascript"></script>
+  	<script src="./script/third_party/leaflet.js" type="text/javascript"></script>
+  	<script src="./script/third_party/wax.leaf.min.js" type="text/javascript"></script>
    <script>
+   if (window.File && window.FileReader && window.FileList && window.Blob) {
+	   // Great success! All the File APIs are supported.
+	 } else {
+	   alert('The File APIs are not fully supported in this browser.');
+	 }
    var config = {
 		    apiKey: 'NFAOLYM5EJBOO4RB11JLRMNZNH0ZHQTY0X3KMBYRYUALUPOS',
 		    apisecret: 'FAAFWOOSW3OB44DEUKWZF2KDTAI3ODHAEKSJ5MCRZWPERCQL',
@@ -37,15 +42,21 @@
    $.getJSON(config.apiUrl + 'v2/venues/explore?near=' +place+ '&client_id='+config.apiKey+'&client_secret='+config.apisecret, {}, function(data) {
 			venues = data['response']['groups'][0]['items'];
 		    /* Place marker for each venue. */
+		    $('#container').append('<table style="float:right"><tr id="results">');
 		    for (var i = 0; i < venues.length; i++) {
-		        $('#results').append('<p id=drage'+i+' draggable="true" ondragstart="drag(event)">'+venues[i]['venue']['name']+'</p>');
+		        $('#results').append('<tr id=drage'+i+' draggable="true" ondragstart="drag(event)"><td>'+venues[i]['venue']['name']+'</td></tr>');
 		    }
+		    $('#container').append('</tr></table>');
    })
    function onLoadEvent(){   
-   $("#schedules").html("<a href='' class='dropdown-toggle' data-toggle='dropdown'>Schedules <b class='caret'></b></a><ul class='dropdown-menu'><li><a href='#'>Action</a></li><li><a href='#'>Another action</a></li><li><a href='#'>Something else here</a></li></ul>");
-   for (i = 0;i<11;i++){
-   $('body').append('<div id="div'+i+'" ondrop="drop(event)" ondragover="allowDrop(event)"></div>');
-   }
+   	$("#schedules").html("<a href='' class='dropdown-toggle' data-toggle='dropdown'>Schedules <b class='caret'></b></a><ul class='dropdown-menu'><li><a href='#'>Action</a></li><li><a href='#'>Another action</a></li><li><a href='#'>Something else here</a></li></ul>");
+   	$('#container').append('<table style="float:left"><tr id="chart">');
+   	for (i = 0;i<23;i++){
+   		var start = 0+i;
+   		var end = 1+i;
+   		$('#chart').append('<tr><td>'+start+':00 to '+end+':00'+'</td><td><div id="div'+i+'" class = "drag_div" ondrop="drop(event)" ondragover="allowDrop(event)"></div></td></tr>');
+   	}
+   	$('#container').append('</tr></table>');
    }
    </script>
 
@@ -75,8 +86,8 @@
 		}
 	</script>
 	<style type="text/css">
-#div1 {width:488px;height:70px;padding:10px;border:1px solid #aaaaaa;}
-</style>
+	#div1 {width:488px;height:70px;padding:10px;border:1px solid #aaaaaa;}
+	</style>
 	</head>
 
   <body onload="onLoadEvent()">
@@ -102,8 +113,7 @@
         </div><!--/.nav-collapse -->
       </div>
       <!-- Main component for a primary marketing message or call to action -->
-      <div id="results" class="jumbotron">
-      
+      <div id="container" class="jumbotron" >
     </div> <!-- /container -->
 
 

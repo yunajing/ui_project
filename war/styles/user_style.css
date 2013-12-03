@@ -10,6 +10,12 @@ background-color:#000000;
 opacity:0.5;
 }
 
+.drag_div{
+	width:488px;
+	height:70px;
+	padding:10px;
+	border:1px solid #aaaaaa;
+}
 .help{
   border: 1px solid black;
   padding: 0; margin: auto;
